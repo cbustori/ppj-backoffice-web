@@ -1,0 +1,11 @@
+.content {
+    background-color: white;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.login-body .login-panel {
+    top: 35%;
+}

@@ -1,0 +1,17 @@
+.container {
+    height: 335px;
+    position: relative;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    text-align: center;
+}
+
+.vertical-center2 {
+    margin: 0;
+    position: absolute;
+    top: 60%;
+}

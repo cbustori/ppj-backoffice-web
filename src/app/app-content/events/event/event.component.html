@@ -1,0 +1,187 @@
+<div class="ui-fluid">
+    <p-messages [(value)]="msgs"></p-messages>
+    <form id="formPdj" #formPdj="ngForm" (submit)="onSubmit(formPdj)">
+        <div class="card">
+            <div class="card-title">
+                Informations principales
+            </div>
+            <div class="ui-g form-group">
+                <div class="ui-g-12">
+                    <p-selectButton
+                        name="type"
+                        [options]="types"
+                        [(ngModel)]="event.type"
+                        #typeEvent
+                        required
+                    ></p-selectButton>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <p-dropdown
+                            name="etabs"
+                            [options]="places"
+                            [(ngModel)]="event.place"
+                            optionLabel="name"
+                            [filter]="false"
+                            ><p-header>
+                                Etablissements
+                            </p-header>></p-dropdown>
+                            <label>Etablissement</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input
+                            id="titre"
+                            type="titre"
+                            pInputText
+                            name="titre"
+                            [(ngModel)]="event.title"
+                            #titre="ngModel"
+                            required
+                        />
+                        <div
+                            *ngIf="!titre.valid && titre.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Ce champ est obligatoire!
+                        </div>
+                        <label>Titre de l'évènement</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <p-calendar
+                            id="date"
+                            type="text"
+                            pInputText
+                            name="date"
+                            #date="ngModel"
+                            [(ngModel)]="event.availableOn"
+                            dateFormat="DD d MM yy"
+                            [locale]="fr"
+                            showButtonBar="true"
+                            required
+                        ></p-calendar>
+                        <div
+                            *ngIf="!date.valid && date.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Ce champ est obligatoire!
+                        </div>
+                        <label>Date</label>
+                    </span>
+                </div>
+                <div
+                    class="ui-g-12"
+                    *ngIf="typeEvent.value === 'DISH_OF_THE_DAY'"
+                >
+                    <span class="md-inputfield"
+                        ><input
+                            type="text"
+                            id="prix"
+                            pInputText
+                            [(ngModel)]="event.price"
+                            name="prix"
+                            #prix="ngModel"
+                            pattern="^\d{0,8}(\.\d{1,4})?$"
+                        />
+                        <div
+                            *ngIf="!prix.valid && prix.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Vérifier le prix!
+                        </div>
+                        <label>Prix (€)</label></span
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Description</div>
+            <span class="md-inputfield">
+                <textarea
+                    id="desc"
+                    type="desc"
+                    pInputText
+                    name="desc"
+                    [(ngModel)]="event.description"
+                    placeholder="Saisir la description de l'évènement"
+                    #desc="ngModel"
+                    required
+                    [rows]="6"
+                    pInputTextarea
+                ></textarea>
+                <div
+                    *ngIf="!desc.valid && desc.touched"
+                    class="ui-message ui-messages-error ui-corner-all"
+                >
+                    Ce champ est obligatoire!
+                </div>
+            </span>
+        </div>
+        <div class="card">
+            <div class="card-title">Mots-clés</div>
+            <p class="subheader">
+                4 mots-clés maximum. [Entrée] ou [Tab] pour valider un mot-clé.
+            </p>
+            <p class="subheader" style="font-size: x-small;">
+                Ex: <i>healthy</i>, <i>sucré</i>, <i>gourmand</i>,
+                <i>pâtisserie</i>
+            </p>
+            <p-chips
+                [(ngModel)]="event.tags"
+                addOnBlur="true"
+                placeholder="Saisir les mots-clés"
+                [allowDuplicate]="false"
+                [max]="4"
+                pInputText
+                id="foods"
+                name="foods"
+                #foods="ngModel"
+            ></p-chips>
+        </div>
+        <div class="card">
+            <div class="card-title">Images</div>
+            <p class="subheader">
+                3 images maximum. Taille maximale autorisée par image: 1Mo.
+            </p>
+            <app-pictures
+                [pictures]="event.pictures"
+                [uploadedFiles]="uploadedFiles"
+                [fileLimit]="3"
+                (fileAdded)="onSelectFile($event)"
+                (fileDeleted)="onDeleteFile($event)"
+            ></app-pictures>
+        </div>
+        <div class="ui-g" style="margin-top: 10px; padding: 0;">
+            <div class="ui-lg-2 ui-md-6 ui-sm-12">
+                <button
+                    pButton
+                    class="ui-button-raised"
+                    type="submit"
+                    label="Enregistrer"
+                    [disabled]="!formPdj.valid"
+                >
+                    <p-progressSpinner
+                        *ngIf="isSubmitting"
+                        [style]="{ width: '20px', height: '20px' }"
+                        strokeWidth="4"
+                        fill="#EEEEEE"
+                        animationDuration=".5s"
+                    ></p-progressSpinner>
+                </button>
+            </div>
+
+            <div class="ui-lg-2 ui-md-6 ui-sm-12">
+                <button
+                    pButton
+                    class="ui-button-raised ui-button-warning"
+                    type="button"
+                    [label]="event.id ? 'Supprimer' : 'Annuler'"
+                    (click)="onDelete($event, formPdj)"
+                ></button>
+            </div>
+        </div>
+    </form>
+</div>

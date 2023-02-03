@@ -1,0 +1,40 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <p-fileUpload
+            name="files[]"
+            multiple="multiple"
+            accept="image/*"
+            maxFileSize="1000000"
+            [files]="uploadedFiles"
+            [showUploadButton]="false"
+            invalidFileSizeMessageSummary="{0}: Taille du fichier invalide,"
+            invalidFileSizeMessageDetail="taille maximale autorisée: {0}."
+            chooseLabel="Ajouter"
+            cancelLabel="Annuler"
+            (onSelect)="onSelectFile($event)"
+            ><ng-template pTemplate="content">
+                <p-messages [(value)]="msgs"></p-messages>
+            </ng-template></p-fileUpload
+        >
+    </div>
+    <div
+        class="ui-xl-3 ui-lg-4 ui-md-6 ui-xs-12"
+        *ngFor="let picture of pictures"
+    >
+        <p-card styleClass="ui-card-shadow">
+            <p-header>
+                <img [src]="picture.url" width="500px" height="313px" />
+            </p-header>
+            <p-footer>
+                <button
+                    pButton
+                    type="button"
+                    label="Supprimer"
+                    icon="ui-icon-delete"
+                    class="ui-button-danger"
+                    (click)="onDeletePicture(picture)"
+                ></button>
+            </p-footer>
+        </p-card>
+    </div>
+</div>

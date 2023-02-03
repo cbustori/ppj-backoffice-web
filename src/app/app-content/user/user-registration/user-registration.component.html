@@ -1,0 +1,194 @@
+<div class="login-body">
+    <p-toast key="loginMessage" [style]="{marginTop: '70px'}"></p-toast>
+    <div class="login-panel ui-fluid">
+        <div class="login-panel-header">
+            <img src="assets/layout/images/logo_ppj.png">
+        </div>
+        <div class="login-panel-content">
+            <div class="ui-g ui-fluid">
+
+                <div class="ui-g-12">
+                    <p-messages [value]="this.msg"></p-messages>
+                </div>
+
+                <div class="ui-g-12 content">
+                    <p-steps [model]="this.stepsItems" [activeIndex]="this.activeIndex"></p-steps>
+                    <form id="frmRegistration" #registerForm="ngForm" (submit)="onSubmit()">
+                        <div class="ui-g form-group" [hidden]="this.activeIndex != 0">
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="email" type="email" pInputText name="email" ngModel #email="ngModel"
+                                        email required />
+                                    <div *ngIf="!email.valid && email.touched"
+                                        class="ui-message ui-messages-error ui-corner-all">
+                                        Ce champ est obligatoire!
+                                    </div>
+                                    <label>Adresse e-mail</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="password" type="password" name="password" pInputText ngModel
+                                        #password="ngModel" required
+                                        pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{6,})$" />
+                                    <div *ngIf="!password.valid && password.touched"
+                                        class="ui-message ui-messages-error ui-corner-all">
+                                        Le mot de passe doit contenir: au moins 6 caractères, une majuscule, une
+                                        minuscule, un
+                                        chiffre et un caractère spécial.
+                                    </div>
+                                    <label>Mot de passe</label>
+                                </span>
+                            </div>
+
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="confirmPassword" type="password" name="confirmPassword" pInputText
+                                        ngModel #confirmPassword="ngModel" required />
+                                    <div *ngIf="confirmPassword.touched && (!confirmPassword.valid || password.value !== confirmPassword.value)"
+                                        class="ui-message ui-messages-error ui-corner-all">
+                                        Les mots de passe ne correspondent pas!
+                                    </div>
+                                    <label>Confirmer le mot de passe</label>
+                                </span>
+                            </div>
+
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="lastName" type="text" name="lastName" pInputText ngModel
+                                        #lastName="ngModel" required />
+                                    <div *ngIf="!lastName.valid && lastName.touched"
+                                        class="ui-message ui-messages-error ui-corner-all">
+                                        Ce champ est obligatoire!
+                                    </div>
+                                    <label>Nom</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="firstName" type="text" name="firstName" pInputText ngModel
+                                        #firstName="ngModel" required />
+                                    <div *ngIf="!firstName.valid && firstName.touched"
+                                        class="ui-message ui-messages-error ui-corner-all">
+                                        Ce champ est obligatoire!
+                                    </div>
+                                    <label>Prénom</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="phone" type="text" name="phone" pInputText ngModel #phone="ngModel"
+                                        required />
+                                    <div *ngIf="!phone.valid && phone.touched"
+                                        class="ui-message ui-messages-error ui-corner-all">
+                                        Ce champ est obligatoire!
+                                    </div>
+                                    <label>N° Téléphone</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <button class="pull-right" pButton type="button" label="Suivant" (click)="checkEmail()"
+                                    [disabled]="!registerForm.valid || this.isSubmitting">
+                                    <p-progressSpinner *ngIf="this.isSubmitting"
+                                        [style]="{ width: '20px', height: '20px', float:'right', 'margin-top':'4px' }"
+                                        strokeWidth="4" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="ui-g form-group" [hidden]="this.activeIndex != 1">
+
+                            <div class="ui-g-12 ui-md-4" *ngFor="let typeEtab of placeTypes">
+                                <p-radioButton name="placeType" [label]="typeEtab.label" [value]="typeEtab.value"
+                                    [(ngModel)]="placeType"></p-radioButton>
+                            </div>
+
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <p-autoComplete id="searchPlace" name="searchPlace" type="search"
+                                        placeholder="Rechercher votre établissement..." pInputText required
+                                        [suggestions]="results" field="name" (completeMethod)="search($event)"
+                                        (onSelect)="onSelectedSuggestion($event)" (onClear)="onClearSelection($event)">
+                                    </p-autoComplete>
+                                </span>
+                            </div>
+
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="companyName" name="companyName" pInputText [(ngModel)]="enseigneModel"
+                                        [disabled]="restaurantFieldsDisable" #companyName="ngModel" required />
+                                    <label>Enseigne</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="companyPhone" type="text" name="companyPhone" pInputText
+                                        [(ngModel)]="phoneNumberModel" [disabled]="restaurantFieldsDisable"
+                                        #companyPhone="ngModel" required />
+                                    <label>N° Téléphone</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="address" type="text" name="address" pInputText [(ngModel)]="addressModel"
+                                        [disabled]="restaurantFieldsDisable" #address="ngModel" required />
+                                    <label>Adresse</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="postalCode" type="text" name="postalCode" pInputText
+                                        [(ngModel)]="postalCodeModel" [disabled]="restaurantFieldsDisable"
+                                        #postalCode="ngModel" required />
+                                    <label>Code Postal</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="city" type="text" name="city" pInputText [(ngModel)]="cityModel"
+                                        [disabled]="restaurantFieldsDisable" #city="ngModel" required />
+                                    <label>Ville</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="country" type="text" name="country" pInputText [(ngModel)]="countryModel"
+                                        [disabled]="restaurantFieldsDisable" #country="ngModel" required />
+                                    <label>Pays</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input id="website" type="text" name="website" pInputText [(ngModel)]="websiteModel"
+                                        [disabled]="restaurantFieldsDisable" #website="ngModel" />
+                                    <label>Site web</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-6">
+                                <button pButton type="button" label="Précédent" (click)="this.activeIndex = 0"></button>
+                            </div>
+                            <div class="ui-g-6">
+                                <button pButton type="button" label="Suivant" (click)="onSubmit()"
+                                    [disabled]="!this.hasPlace || this.isSubmitting">
+                                    <p-progressSpinner *ngIf="this.isSubmitting"
+                                        [style]="{ width: '20px', height: '20px', float:'right', 'margin-top':'4px' }"
+                                        strokeWidth="4" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="ui-g" *ngIf="this.activeIndex == 2">
+                        <div class="ui-g-12">
+                            <h1>Compte créé 🎊🎉</h1>
+                            <h2>Merci pour votre inscription. Vous avez reçu un email de confirmation. Consultez cet
+                                email et
+                                cliquez sur le lien d'activation et <a href="javascript:void(0)"
+                                    (click)="this.router.navigate(['login']);">connectez-vous.</a></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

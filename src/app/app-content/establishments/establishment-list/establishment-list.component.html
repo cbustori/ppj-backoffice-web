@@ -1,0 +1,56 @@
+<div class="ui-fluid">
+    <div class="card">
+        <div class="card-title">Etablissements</div>
+        <p-table [value]="establishments">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Enseigne</th>
+                    <th>Adresse</th>
+                    <th>Code postal</th>
+                    <th>Ville</th>
+                    <th>N° téléphone</th>
+                    <th>Site web</th>
+                    <th>Statut</th>
+                    <th style="width: 8em;"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-etab>
+                <tr>
+                    <td>{{ etab.name }}</td>
+                    <td>{{ etab.address.street }}</td>
+                    <td>{{ etab.address.zipCode }}</td>
+                    <td>{{ etab.address.city }}</td>
+                    <td>{{ etab.phoneNumber }}</td>
+                    <td>
+                        <a
+                            [href]="etab.website"
+                            target="_blank"
+                            [title]="etab.website"
+                            >{{ etab.website | shorten: 40 }}</a
+                        >
+                    </td>
+                    <td>{{ etab.status | status }}</td>
+                    <td>
+                        <button
+                            pButton
+                            type="button"
+                            class="ui-button-secondary"
+                            style="margin-right: 5px;"
+                            icon="ui-icon-edit"
+                            class="orange-btn"
+                            (click)="onEdit(etab.id)"
+                        ></button
+                        ><button
+                            pButton
+                            type="button"
+                            class="ui-button-secondary"
+                            icon="ui-icon-people"
+                            class="orange-btn"
+                            (click)="onContributors(etab.id)"
+                        ></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

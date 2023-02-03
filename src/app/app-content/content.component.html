@@ -1,0 +1,15 @@
+<div class="layout-container layout-menu-light layout-top-large" (click)="onWrapperClick()"
+     [ngClass]="{'layout-menu-horizontal': horizontal,
+                'layout-menu-active': menuActive}"
+                [class]="topbarColor + ' ' + menuColor">
+    <div class="layout-top">
+        <app-header></app-header>
+        <div class="layout-topbar-separator"></div>
+    </div>
+
+    <div class="layout-content" style="min-height: calc(100vh - 226px - 3em)">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="layout-mask" *ngIf="menuActive" [@mask-anim]="'visible'"></div>
+    <app-footer></app-footer>
+</div>

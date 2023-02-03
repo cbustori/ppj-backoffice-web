@@ -1,0 +1,86 @@
+<div class="ui-fluid">
+    <p-messages [(value)]="msgs"></p-messages>
+    <div class="card">
+        <div class="card-title">Contributeurs</div>
+        <p style="text-align: center;" *ngIf="!contributors.length">
+            Aucun contributeur
+        </p>
+        <div class="ui-g">
+            <p-table *ngIf="contributors.length" [value]="contributors">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Etablissement</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>N° téléphone</th>
+                        <th>E-mail</th>
+                        <th>Status</th>
+                        <th style="width: 8em;"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-contrib>
+                    <tr>
+                        <td>{{ contrib.places | places }}</td>
+                        <td>{{ contrib.name }}</td>
+                        <td>{{ contrib.firstName }}</td>
+                        <td>{{ contrib.phoneNumber }}</td>
+                        <td>{{ contrib.email }}</td>
+                        <td>{{ contrib.userStatus }}</td>
+                        <td><button pButton type="button" class="ui-button-danger" icon="ui-icon-delete" (click)="onDelete(contrib)"></button></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Ajouter un contributeur</div>
+        <div class="subheader">
+            Le contributeur pourra créer, modifier, supprimer des évènements et
+            gérer le planning.<br />
+            Il ne pourra pas modifier les informations de l'établissement.
+        </div>
+        <div class="form-group" style="margin: 10px;">
+            <form #contribForm="ngForm" (submit)="onSubmit(contribForm)">
+                <div class="ui-g-12" style="margin-top: 15px;">
+                    <span class="md-inputfield">
+                        <input
+                            id="email"
+                            type="email"
+                            pInputText
+                            name="email"
+                            ngModel
+                            #email="ngModel"
+                            email
+                            required
+                        />
+                        <label>Adresse e-mail</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <p-listbox
+                            [multiple]="true"
+                            [checkbox]="true"
+                            name="etabs"
+                            [options]="places"
+                            ngModel
+                            [filter]="false"
+                            [showToggleAll]="false"
+                            required
+                            ><p-header>
+                                Etablissements
+                            </p-header></p-listbox
+                        >
+                    </span>
+                </div>
+                <p-button
+                    style="margin-top: 15px;"
+                    type="submit"
+                    label="Envoyer l'invitation"
+                    [disabled]="!contribForm.valid"
+                ></p-button>
+            </form>
+        </div>
+    </div>
+</div>

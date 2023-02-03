@@ -1,0 +1,47 @@
+<div class="ui-fluid">
+    <div class="card">
+        <div class="card-title">{{title}}</div>
+        <p-table [value]="events">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Titre</th>
+                    <th>Etablissement</th>
+                    <th>Prix</th>
+                    <th>Tags</th>
+                    <th style="width: 8em;"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-event>
+                <tr>
+                    <td>{{ event.availableOn | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ event.type | eventType }}</td>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.place.name }}</td>
+                    <td>{{ event.price | currency: 'EUR' }}</td>
+                    <td>{{ event.tags }}</td>
+                    <td>
+                        <button
+                            pButton
+                            type="button"
+                            class="ui-button-secondary"
+                            icon="ui-icon-search"
+                            (click)="onEventSearch($event, event.id)"
+                            style="margin-right: .5em;"
+                            class="ui-button-success"
+                        ></button
+                        ><button
+                            pButton
+                            type="button"
+                            class="ui-button-secondary"
+                            icon="ui-icon-edit"
+                            (click)="onEventEdit($event, event.id)"
+                            class="orange-btn"
+                        ></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

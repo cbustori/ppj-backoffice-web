@@ -1,0 +1,195 @@
+<div class="ui-fluid">
+    <form id="frmEtab" #etabEditForm="ngForm" (submit)="onSubmit()">
+        <div class="card">
+            <div class="card-title">Informations principales</div>
+            <p-messages [(value)]="msgs"></p-messages>
+            <div class="ui-g form-group">
+                <div
+                    class="ui-g-12 ui-md-3"
+                    *ngFor="let typeEtab of placeTypes"
+                >
+                    <p-radioButton
+                        name="type"
+                        [label]="typeEtab.label"
+                        [value]="typeEtab.value"
+                        [(ngModel)]="place.type"
+                    ></p-radioButton>
+                </div>
+                <div class="ui-g-12" style="margin-top: 10px;">
+                    <span class="md-inputfield">
+                        <input
+                            id="companyName"
+                            name="companyName"
+                            pInputText
+                            [(ngModel)]="place.name"
+                            #companyName="ngModel"
+                            required
+                        />
+                        <div
+                            *ngIf="!companyName.valid && companyName.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Ce champ est obligatoire!
+                        </div>
+                        <label>Nom de l'établissement</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input
+                            id="companyPhone"
+                            type="text"
+                            name="companyPhone"
+                            pInputText
+                            [(ngModel)]="place.phoneNumber"
+                            #companyPhone="ngModel"
+                            required
+                        />
+                        <div
+                            *ngIf="!companyPhone.valid && companyPhone.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Ce champ est obligatoire!
+                        </div>
+                        <label>N° Téléphone</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input
+                            id="address"
+                            type="text"
+                            name="address"
+                            pInputText
+                            [(ngModel)]="place.address.street"
+                            disabled="disabled"
+                            #address="ngModel"
+                            required
+                        />
+                        <div
+                            *ngIf="!address.valid && address.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Ce champ est obligatoire!
+                        </div>
+                        <label>Adresse</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input
+                            id="postalCode"
+                            type="text"
+                            name="postalCode"
+                            pInputText
+                            [(ngModel)]="place.address.zipCode"
+                            disabled="disabled"
+                            #postalCode="ngModel"
+                            required
+                        />
+                        <div
+                            *ngIf="!postalCode.valid && postalCode.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Ce champ est obligatoire!
+                        </div>
+                        <label>Code Postal</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input
+                            id="city"
+                            type="text"
+                            name="city"
+                            pInputText
+                            [(ngModel)]="place.address.city"
+                            disabled="disabled"
+                            #city="ngModel"
+                            required
+                        />
+                        <div
+                            *ngIf="!city.valid && city.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Ce champ est obligatoire!
+                        </div>
+                        <label>Ville</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input
+                            id="country"
+                            type="text"
+                            name="country"
+                            pInputText
+                            [(ngModel)]="place.address.country"
+                            disabled="disabled"
+                            #country="ngModel"
+                            required
+                        />
+                        <div
+                            *ngIf="!country.valid && country.touched"
+                            class="ui-message ui-messages-error ui-corner-all"
+                        >
+                            Ce champ est obligatoire!
+                        </div>
+                        <label>Pays</label>
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <span class="md-inputfield">
+                        <input
+                            id="website"
+                            type="text"
+                            name="website"
+                            pInputText
+                            [(ngModel)]="place.website"
+                            #website="ngModel"
+                        />
+                        <label>Site web</label>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Situation géographique</div>
+            <p-gmap
+                #gmap
+                [style]="{
+                    width: '100%',
+                    height: '320px',
+                    'margin-bottom': '1em'
+                }"
+                [options]="options"
+                [overlays]="overlays"
+                (onMapReady)="setMap($event)"
+            ></p-gmap>
+        </div>
+        <div class="card">
+            <div class="card-title">Images</div>
+            <p class="subheader">
+                3 images maximum. Taille maximale autorisée par image: 1Mo.
+            </p>
+            <app-pictures
+                [pictures]="place.pictures"
+                [uploadedFiles]="uploadedFiles"
+                [fileLimit]="3"
+                (fileAdded)="onSelectFile($event)"
+                (fileDeleted)="onDeleteFile($event)"
+            ></app-pictures>
+        </div>
+        <div class="p-grid">
+            <div class="ui-g-2" style="margin-top: 10px;">
+                <button
+                    pButton
+                    class="ui-button-raised"
+                    type="submit"
+                    label="Enregistrer"
+                    [disabled]="!etabEditForm.valid"
+                ></button>
+            </div>
+        </div>
+    </form>
+</div>

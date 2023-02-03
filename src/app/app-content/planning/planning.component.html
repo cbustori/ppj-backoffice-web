@@ -1,0 +1,46 @@
+<div class="ui-g">
+    <div class="ui-xl-2 ui-lg-3 ui-md-12">
+        <div class="card">
+            <div class="ui-g">
+                <div class="card-title ui-g-10">
+                    Derniers évènements
+                </div>
+                <div class="ui-g-2" style="text-align: right;">
+                    <button
+                        pButton
+                        class="ui-button-primary"
+                        icon="ui-icon-add"
+                        (click)="onAddEvent()"
+                    ></button>
+                </div>
+            </div>
+            <div #containerEl>
+                <p-accordion>
+                    <div
+                        class="draggable-item"
+                        *ngFor="let event of lastEvents"
+                        [id]="event.id"
+                    >
+                        <p-accordionTab
+                            [header]="event.title + ', ' + (event.availableOn | date:'E dd LLLL')"
+                            [selected]="false"
+                        >
+                            <p-panel [showHeader]="false">
+                                {{ event.description }}
+                            </p-panel>
+                        </p-accordionTab>
+                    </div>
+                </p-accordion>
+            </div>
+        </div>
+    </div>
+    <div class="ui-xl-10 ui-lg-9 ui-md-12">
+        <div class="card">
+            <p-messages [(value)]="msgs"></p-messages>
+            <p-fullCalendar
+                [events]="calendarEvents"
+                [options]="options"
+            ></p-fullCalendar>
+        </div>
+    </div>
+</div>

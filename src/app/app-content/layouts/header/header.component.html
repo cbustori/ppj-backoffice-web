@@ -1,0 +1,37 @@
+<div class="layout-topbar">
+
+    <a href="#" class="layout-menubutton" [ngClass]="{'layout-menubutton-active': content.menuActive}" (click)="content.onMenuButtonClick($event)">
+        <div class="layout-menubutton-icon"></div>
+    </a>
+
+    <div class="layout-topbar-grid">
+        <div class="layout-topbar-grid-column layout-topbar-grid-column-fixed">
+            <a href="#" class="layout-logo">
+                <img style="width: 80px; height: 80px;" src="assets/layout/images/logo_ppj.png" alt="ppj" />
+            </a>
+        </div>
+        <div class="layout-topbar-grid-column">
+            <app-menu></app-menu>
+        </div>
+        <div class="layout-topbar-grid-column layout-topbar-grid-column-fixed">
+            <a class="profile-menu-button" (click)="content.onTopbarUserMenuButtonClick($event)">
+                <img [src]="this.profilePicture" alt="sapphire-layout" />
+            </a>
+            <ul class="layout-profile-menu fadeInDown" [ngClass]="{'layout-profile-menu-active': content.topbarUserMenuActive}">
+                <li role="menuitem">
+                    <a routerLink="/user/profile" class="ripplelink"><i
+                            class="material-icons">account_circle</i><span>Profil</span></a>
+                </li>
+                <li role="menuitem">
+                    <a class="ripplelink"><i class="material-icons">inbox</i><span>Messages</span></a>
+                </li>
+                <li role="menuitem">
+                    <a class="ripplelink"><i class="material-icons">settings</i><span>Réglages</span></a>
+                </li>
+                <li role="menuitem">
+                    <a class="ripplelink" (click)="securityService.logout(true)"><i class="material-icons">cancel</i><span>Déconnexion</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

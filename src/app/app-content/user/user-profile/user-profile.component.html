@@ -1,0 +1,192 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12 card">
+            <div class="card-title">Informations principales</div>
+            <div class="ui-g-6 ui-sm-12">
+                <p-card>
+                    <form
+                        id="frmProfile"
+                        #registerForm="ngForm"
+                        (submit)="onSubmit()"
+                    >
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        pInputText
+                                        name="email"
+                                        [(ngModel)]="user.email"
+                                        #email="ngModel"
+                                        email
+                                        required
+                                    />
+                                    <div
+                                        *ngIf="!email.valid && email.touched"
+                                        class="ui-message ui-messages-error ui-corner-all"
+                                    >
+                                        Ce champ est obligatoire!
+                                    </div>
+                                    <label>Adresse e-mail</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        pInputText
+                                        [(ngModel)]="newPassword"
+                                        #password="ngModel"
+                                        required
+                                        pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{6,})$"
+                                    />
+                                    <div
+                                        *ngIf="
+                                            !password.valid && password.touched
+                                        "
+                                        class="ui-message ui-messages-error ui-corner-all"
+                                    >
+                                        Le mot de passe doit contenir: au moins
+                                        6 caractères, une majuscule, une
+                                        minuscule, un chiffre et un caractère
+                                        spécial.
+                                    </div>
+                                    <label>Mot de passe</label>
+                                </span>
+                            </div>
+
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input
+                                        id="confirmPassword"
+                                        type="password"
+                                        name="confirmPassword"
+                                        pInputText
+                                        ngModel
+                                        #confirmPassword="ngModel"
+                                        required
+                                    />
+                                    <div
+                                        *ngIf="
+                                            confirmPassword.touched &&
+                                            (!confirmPassword.valid ||
+                                                password.value !==
+                                                    confirmPassword.value)
+                                        "
+                                        class="ui-message ui-messages-error ui-corner-all"
+                                    >
+                                        Les mots de passe ne correspondent pas!
+                                    </div>
+                                    <label>Confirmer le mot de passe</label>
+                                </span>
+                            </div>
+
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input
+                                        id="lastName"
+                                        type="text"
+                                        name="lastName"
+                                        pInputText
+                                        [(ngModel)]="user.name"
+                                        #lastName="ngModel"
+                                        required
+                                    />
+                                    <div
+                                        *ngIf="
+                                            !lastName.valid && lastName.touched
+                                        "
+                                        class="ui-message ui-messages-error ui-corner-all"
+                                    >
+                                        Ce champ est obligatoire!
+                                    </div>
+                                    <label>Nom</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input
+                                        id="firstName"
+                                        type="text"
+                                        name="firstName"
+                                        pInputText
+                                        [(ngModel)]="user.firstName"
+                                        #firstName="ngModel"
+                                        required
+                                    />
+                                    <div
+                                        *ngIf="
+                                            !firstName.valid &&
+                                            firstName.touched
+                                        "
+                                        class="ui-message ui-messages-error ui-corner-all"
+                                    >
+                                        Ce champ est obligatoire!
+                                    </div>
+                                    <label>Prénom</label>
+                                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <span class="md-inputfield">
+                                    <input
+                                        id="phone"
+                                        type="text"
+                                        name="phone"
+                                        pInputText
+                                        [(ngModel)]="user.phoneNumber"
+                                        #phone="ngModel"
+                                        required
+                                    />
+                                    <div
+                                        *ngIf="!phone.valid && phone.touched"
+                                        class="ui-message ui-messages-error ui-corner-all"
+                                    >
+                                        Ce champ est obligatoire!
+                                    </div>
+                                    <label>N° Téléphone</label>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </p-card>
+            </div>
+            <div class="ui-g-6 ui-sm-12">
+                <p-card>
+                    <div style="height: 293px;">
+                        <div class="ui-g" style="position: relative; top: 25%;">
+                            <div class="ui-g-12" style="text-align: center;">
+                                <a href="#" (click)="onAvatarClick($event)"
+                                    ><img [src]="user.profilePicture ? user.profilePicture.url : 'assets/layout/images/avatar.png'"
+                                /></a>
+                            </div>
+                            <div class="ui-g-4 ui-g-offset-4 ui-xl-2 ui-xl-offset-5 ui-md-6 ui-md-offset-3">
+                                <p-fileUpload
+                                    mode="basic"
+                                    name="avatar[]"
+                                    #fileInput
+                                    accept="image/*"
+                                    maxFileSize="1000000"
+                                    chooseLabel="Choisir"
+                                    (onSelect)="onAvatarSelect($event)"
+                                ></p-fileUpload>
+                            </div>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+            <div class="ui-g-12">
+                <p-button
+                    type="submit"
+                    label="Enregistrer"
+                    icon="ui-icon-check"
+                ></p-button>
+            </div>
+        </div>
+        <div class="ui-g-12 card">
+            <div class="card-title">Abonnements</div>
+        </div>
+    </div>
+</div>

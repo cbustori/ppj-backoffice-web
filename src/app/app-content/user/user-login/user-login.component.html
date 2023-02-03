@@ -1,0 +1,93 @@
+<div class="login-body">
+    <p-toast key="loginMessage" [style]="{marginTop: '70px'}"></p-toast>
+    <div class="login-panel ui-fluid">
+        <div class="login-panel-header">
+            <img src="assets/layout/images/logo_ppj.png">
+        </div>
+        <div class="login-panel-content">
+
+            <form id="frmLogin" #loginForm="ngForm" (submit)="onSubmit()">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <p-messages [value]="this.msgLogin"></p-messages>
+                    </div>
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input id="email" name="email" type="email" ngModel #email="ngModel" email required
+                                pInputText>
+                            <div *ngIf="!email.valid && email.touched"
+                                class="ui-message ui-messages-error ui-corner-all">
+                                Ce champ est obligatoire!
+                            </div>
+                            <label>Email</label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12">
+                        <span class="md-inputfield">
+                            <input id="password" name="password" type="password" ngModel #password="ngModel" required
+                                pInputText>
+                            <div *ngIf="!password.valid && password.touched"
+                                class="ui-message ui-messages-error ui-corner-all">
+                                Ce champ est obligatoire!
+                            </div>
+                            <label>Mot de passe</label>
+                        </span>
+                    </div>
+
+                    <div class="ui-g-6">
+                        <a href="javascript:void(0)" (click)="display=true">Mot de passe oublié ?</a>
+                    </div>
+
+                    <div class="ui-g-6" style="text-align: right">
+                        <button pButton type="submit" label="Connexion" style="width: 100%"
+                            [disabled]="!loginForm.valid || isSubmitting">
+                            <p-progressSpinner *ngIf="isSubmitting"
+                                [style]="{ width: '20px', height: '20px', float:'right', 'margin-top':'4px' }"
+                                strokeWidth="4" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+
+            <div class="ui-g-12">
+                <h2>Pas de compte ? <a href="javascript:void(0)"
+                        (click)="this.router.navigate(['register']);">Inscrivez-vous !</a>
+                </h2>
+            </div>
+
+            <p-dialog header="Mot de passe oublié" [(visible)]="display" modal="modal" showEffect="fade"
+                class="ui-fluid">
+                <form id="frmLostPassword" #frmLostPassword="ngForm" (submit)="onSubmitLostPassword()">
+                    <div class="ui-g">
+                        <div class="ui-g-12">
+                            <span class="md-inputfield">
+                                <input id="emailLost" name="emailLost" type="emailLost" ngModel #emailLost="ngModel"
+                                    email required pInputText>
+                                <div *ngIf="!emailLost.valid && emailLost.touched"
+                                    class="ui-message ui-messages-error ui-corner-all">
+                                    Ce champ est obligatoire!
+                                </div>
+                                <label>Email</label>
+                            </span>
+                        </div>
+
+                        <div class="ui-g-6">
+                            <button type="button" pButton (click)="display=false" label="Annuler"
+                                class="ui-button-danger"></button>
+                        </div>
+                        <div class="ui-g-6">
+                            <button type="button" pButton type="submit" label="Valider"
+                                [disabled]="!emailLost.valid || isSubmittingLostPassord" class="ui-button-success">
+                                <p-progressSpinner *ngIf="isSubmittingLostPassord"
+                                    [style]="{ width: '20px', height: '20px', float:'right', 'margin-top':'4px' }"
+                                    strokeWidth="4" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </p-dialog>
+
+        </div>
+    </div>
+</div>
